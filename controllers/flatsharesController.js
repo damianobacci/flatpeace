@@ -1,19 +1,6 @@
 import { nanoid } from "nanoid";
 import Flatshare from "../models/FlatshareModel.js";
 
-let flatshares = [
-  {
-    id: nanoid(),
-    name: "test",
-    members: [nanoid(), nanoid()],
-  },
-  {
-    id: nanoid(),
-    name: "test",
-    members: [nanoid(), nanoid()],
-  },
-];
-
 export const getAllFlatshares = async (req, res) => {
   const flatshares = await Flatshare.find({});
   res.status(200).json({ flatshares });
