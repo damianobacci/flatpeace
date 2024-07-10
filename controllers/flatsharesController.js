@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import Flatshare from "../models/FlatshareModel.js";
 
 let flatshares = [
   {
@@ -14,12 +15,13 @@ let flatshares = [
 ];
 
 export const getAllFlatshares = async (req, res) => {
+  const flatshares = await Flatshare.find({});
   res.status(200).json({ flatshares });
 };
 
 export const getSingleFlatshare = async (req, res) => {
   const { id } = req.params;
-  const flatshare = flatshares.find((flatshare) => flatshare.id === id);
+  const flatshare = await Flatshare.findById(id);
   if (!flatshare) {
     return res.status(404).json({ message: `No job with id ${id} found.` });
   }
@@ -28,45 +30,29 @@ export const getSingleFlatshare = async (req, res) => {
 
 export const createFlatshare = async (req, res) => {
   const name = req.body.name;
-  if (!name) {
-    return res
-      .status(400)
-      .json({ message: "Please provide a name for your flatshare" });
-  }
-  const id = nanoid();
   const members = [nanoid(), nanoid()];
-  const flatshare = {
-    id,
-    name,
-    members,
-  };
-  flatshares.push(flatshare);
-  res.status(200).json({ flatshare });
+  const flatshare = await Flatshare.create({ name, members });
+  res.status(201).json({ flatshare });
 };
 
 export const updateFlatshare = async (req, res) => {
-  const { name } = req.body;
-  if (!name) {
-    return res
-      .status(400)
-      .json({ message: "Please provide a name for your flatshare" });
-  }
   const { id } = req.params;
-  const flatshare = flatshares.find((flatshare) => flatshare.id === id);
-  if (!flatshare) {
+  const updatedflatshare = await Flatshare.findByIdAndUpdate(id, req.body, {
+    new: true,
+  });
+  if (!updatedflatshare) {
     return res.status(404).json({ message: `No job with id ${id} found.` });
   }
-  flatshare.name = name;
-  res.status(200).json({ message: "Flatshare modified", flatshare });
+  res.status(200).json({ message: "Flatshare modified", updatedflatshare });
 };
 
 export const deleteFlatshare = async (req, res) => {
   const { id } = req.params;
-  const flatshare = flatshares.find((flatshare) => flatshare.id === id);
-  if (!flatshare) {
+  const removedFlatshare = await Flatshare.findByIdAndDelete(id);
+  if (!removedFlatshare) {
     return res.status(404).json({ message: `No job with id ${id} found.` });
   }
-  const newFlatshares = flatshares.filter((flatshare) => flatshare.id !== id);
-  flatshares = newFlatshares;
-  res.status(200).json({ message: "Flatshare deleted" });
+  res
+    .status(200)
+    .json({ message: "Flatshare deleted", flatshare: removedFlatshare });
 };
