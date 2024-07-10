@@ -18,6 +18,14 @@ app.use(express.json());
 
 app.use("/api/v1/flatshares", flatshareRouter);
 
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "Not found" });
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).json({ message: "Something went wrong..." });
+});
+
 app.listen(port, () => {
   console.log("Server is running...");
 });
