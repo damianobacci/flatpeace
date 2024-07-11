@@ -30,13 +30,13 @@ export const createFlatshare = async (req, res) => {
 
 export const updateFlatshare = async (req, res) => {
   const { id } = req.params;
-  const updatedflatshare = await Flatshare.findByIdAndUpdate(id, req.body, {
+  const updatedFlatshare = await Flatshare.findByIdAndUpdate(id, req.body, {
     new: true,
   });
-  if (!updatedflatshare) throw new NotFoundError(`No job with id ${id} found.`);
+  if (!updatedFlatshare) throw new NotFoundError(`No job with id ${id} found.`);
   res
     .status(StatusCodes.OK)
-    .json({ message: "Flatshare modified", updatedflatshare });
+    .json({ message: "Flatshare modified", updatedFlatshare });
 };
 
 export const deleteFlatshare = async (req, res) => {

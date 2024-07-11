@@ -15,7 +15,6 @@ import flatshareRouter from "./routers/flatsharesRouter.js";
 
 // MIDDLEWARES
 import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
-import { validateTest } from "./middlewares/ValidationMiddleware.js";
 
 //-----------------------
 
@@ -29,14 +28,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-// JSON MIDDLEWARE
+// JSON
 
 app.use(express.json());
-
-app.post("/api/v1/test", validateTest, (req, res) => {
-  const { name } = req.body;
-  res.json({ message: `hello ${name}` });
-});
 
 // FLATSHARE ROUTE
 

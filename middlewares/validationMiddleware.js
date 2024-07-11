@@ -15,10 +15,16 @@ const withValidationErrors = (validateValues) => {
   ]; // In Express if you want to return multiple middlewares together you must return an array
 };
 
-export const validateTest = withValidationErrors([
-  body("name")
-    .notEmpty()
-    .withMessage("Name is required")
-    .isLength({ min: 3 })
-    .withMessage("Name must be at least 3 characters long"),
+export const validateFlatshare = withValidationErrors([
+  body("name").notEmpty().withMessage("A name is required."),
 ]);
+
+// Structure for reference
+
+// export const validateTest = withValidationErrors([
+//   body("name")
+//     .notEmpty()
+//     .withMessage("Name is required")
+//     .isLength({ min: 3 })
+//     .withMessage("Name must be at least 3 characters long"),
+// ]);
