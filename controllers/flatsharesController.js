@@ -1,9 +1,10 @@
+import { StatusCodes } from "http-status-codes";
 import { nanoid } from "nanoid";
 import Flatshare from "../models/FlatshareModel.js";
 
 export const getAllFlatshares = async (req, res) => {
   const flatshares = await Flatshare.find({});
-  res.status(200).json({ flatshares });
+  res.status(StatusCodes.OK).json({ flatshares });
 };
 
 export const getSingleFlatshare = async (req, res) => {
@@ -12,14 +13,14 @@ export const getSingleFlatshare = async (req, res) => {
   if (!flatshare) {
     return res.status(404).json({ message: `No job with id ${id} found.` });
   }
-  res.status(200).json({ flatshare });
+  res.status(StatusCodes.OK).json({ flatshare });
 };
 
 export const createFlatshare = async (req, res) => {
   const name = req.body.name;
   const members = [nanoid(), nanoid()];
   const flatshare = await Flatshare.create({ name, members });
-  res.status(201).json({ flatshare });
+  res.status(StatusCodes.CREATED).json({ flatshare });
 };
 
 export const updateFlatshare = async (req, res) => {
@@ -30,7 +31,9 @@ export const updateFlatshare = async (req, res) => {
   if (!updatedflatshare) {
     return res.status(404).json({ message: `No job with id ${id} found.` });
   }
-  res.status(200).json({ message: "Flatshare modified", updatedflatshare });
+  res
+    .status(StatusCodes.OK)
+    .json({ message: "Flatshare modified", updatedflatshare });
 };
 
 export const deleteFlatshare = async (req, res) => {
@@ -40,6 +43,6 @@ export const deleteFlatshare = async (req, res) => {
     return res.status(404).json({ message: `No job with id ${id} found.` });
   }
   res
-    .status(200)
+    .status(StatusCodes.OK)
     .json({ message: "Flatshare deleted", flatshare: removedFlatshare });
 };

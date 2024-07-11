@@ -1,3 +1,6 @@
+// EXPRESS ASYNC ERRORS package
+import "express-async-errors";
+
 // DONTENV
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,21 +19,33 @@ const port = process.env.PORT || 5100;
 
 const app = express();
 
+// MORGAN OUTPUT ON THE CONSOLE
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// JSON MIDDLEWARE
+
 app.use(express.json());
 
+// FLATSHARE ROUTE
+
 app.use("/api/v1/flatshares", flatshareRouter);
+
+// CATCH-ALL ROUTE
 
 app.use("*", (req, res) => {
   res.status(404).json({ message: "Not found" });
 });
 
+// ERROR ROUTE
+
 app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong..." });
 });
+
+// INITIALIZE APP AND CONNECT TO MONGODB
 
 try {
   await mongoose.connect(process.env.MONGO_URL);
