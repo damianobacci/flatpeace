@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { body, param, validationResult } from "express-validator";
 import { BadRequestError } from "../errors/customErrors.js";
 
@@ -17,6 +18,12 @@ const withValidationErrors = (validateValues) => {
 
 export const validateFlatshare = withValidationErrors([
   body("name").notEmpty().withMessage("A name is required."),
+]);
+
+export const validateIdParam = withValidationErrors([
+  param("id")
+    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .withMessage("Invalid MongoDb ID"),
 ]);
 
 // Structure for reference

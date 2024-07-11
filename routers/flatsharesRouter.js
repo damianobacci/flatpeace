@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { validateFlatshare } from "../middlewares/ValidationMiddleware.js";
+import {
+  validateIdParam,
+  validateFlatshare,
+} from "../middlewares/ValidationMiddleware.js";
 
 const router = Router();
 
@@ -17,8 +20,8 @@ router
   .post(validateFlatshare, createFlatshare);
 router
   .route("/:id")
-  .get(getSingleFlatshare)
-  .patch(validateFlatshare, updateFlatshare)
-  .delete(deleteFlatshare);
+  .get(validateIdParam, getSingleFlatshare)
+  .patch(validateFlatshare, validateIdParam, updateFlatshare)
+  .delete(validateIdParam, deleteFlatshare);
 
 export default router;
