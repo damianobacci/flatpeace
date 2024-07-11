@@ -5,13 +5,17 @@ import "express-async-errors";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-// IMPORTS
+// LIBRARIES
 import express from "express";
 import morgan from "morgan";
 import mongoose from "mongoose";
 
 // ROUTERS
 import flatshareRouter from "./routers/flatsharesRouter.js";
+
+// MIDDLEWARES
+import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
+import { validateTest } from "./middlewares/ValidationMiddleware.js";
 
 //-----------------------
 
@@ -29,6 +33,11 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.json());
 
+app.post("/api/v1/test", validateTest, (req, res) => {
+  const { name } = req.body;
+  res.json({ message: `hello ${name}` });
+});
+
 // FLATSHARE ROUTE
 
 app.use("/api/v1/flatshares", flatshareRouter);
@@ -41,9 +50,7 @@ app.use("*", (req, res) => {
 
 // ERROR ROUTE
 
-app.use((err, req, res, next) => {
-  res.status(500).json({ message: "Something went wrong..." });
-});
+app.use(errorHandlerMiddleware);
 
 // INITIALIZE APP AND CONNECT TO MONGODB
 

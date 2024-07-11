@@ -1,6 +1,13 @@
+// LIBRARIES
+
 import { StatusCodes } from "http-status-codes";
 import { nanoid } from "nanoid";
+
+// DATA MODELS
 import Flatshare from "../models/FlatshareModel.js";
+
+// CUSTOM ERRORS
+import { NotFoundError } from "../errors/customErrors.js";
 
 export const getAllFlatshares = async (req, res) => {
   const flatshares = await Flatshare.find({});
@@ -10,9 +17,7 @@ export const getAllFlatshares = async (req, res) => {
 export const getSingleFlatshare = async (req, res) => {
   const { id } = req.params;
   const flatshare = await Flatshare.findById(id);
-  if (!flatshare) {
-    return res.status(404).json({ message: `No job with id ${id} found.` });
-  }
+  if (!flatshare) throw new NotFoundError(`No job with id ${id} found.`);
   res.status(StatusCodes.OK).json({ flatshare });
 };
 
@@ -28,9 +33,7 @@ export const updateFlatshare = async (req, res) => {
   const updatedflatshare = await Flatshare.findByIdAndUpdate(id, req.body, {
     new: true,
   });
-  if (!updatedflatshare) {
-    return res.status(404).json({ message: `No job with id ${id} found.` });
-  }
+  if (!updatedflatshare) throw new NotFoundError(`No job with id ${id} found.`);
   res
     .status(StatusCodes.OK)
     .json({ message: "Flatshare modified", updatedflatshare });
@@ -39,9 +42,7 @@ export const updateFlatshare = async (req, res) => {
 export const deleteFlatshare = async (req, res) => {
   const { id } = req.params;
   const removedFlatshare = await Flatshare.findByIdAndDelete(id);
-  if (!removedFlatshare) {
-    return res.status(404).json({ message: `No job with id ${id} found.` });
-  }
+  if (!removedFlatshare) throw new NotFoundError(`No job with id ${id} found.`);
   res
     .status(StatusCodes.OK)
     .json({ message: "Flatshare deleted", flatshare: removedFlatshare });
