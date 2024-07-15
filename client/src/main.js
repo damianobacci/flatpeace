@@ -1,5 +1,29 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
 
-createApp(App).mount('#app')
+import Register from "./pages/auth/Register.vue";
+import Home from "./pages/Home.vue"; // Example home component
+
+import App from "./App.vue";
+import "./style.css";
+
+// Define your routes
+const routes = [
+  {
+    path: "/register",
+    component: Register,
+  },
+  {
+    path: "/",
+    component: Home,
+  },
+];
+
+// Create the router instance
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+// Create and mount the app
+createApp(App).use(router).mount("#app");
