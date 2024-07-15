@@ -12,6 +12,7 @@ import mongoose from "mongoose";
 
 // ROUTERS
 import flatshareRouter from "./routers/flatsharesRouter.js";
+import authRouter from "./routers/authRouter.js";
 
 // MIDDLEWARES
 import errorHandlerMiddleware from "./middlewares/errorHandlerMiddleware.js";
@@ -35,6 +36,7 @@ app.use(express.json());
 // FLATSHARE ROUTE
 
 app.use("/api/v1/flatshares", flatshareRouter);
+app.use("/api/v1/auth", authRouter);
 
 // CATCH-ALL ROUTE
 
