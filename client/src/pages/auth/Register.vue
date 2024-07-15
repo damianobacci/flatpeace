@@ -12,6 +12,13 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useNotification } from "@kyvg/vue3-notification";
+
+import axios from "axios";
+
+const router = useRouter();
+const { notify } = useNotification();
 
 const name = ref("");
 const email = ref("");
@@ -19,7 +26,22 @@ const password = ref("");
 const flatshareName = ref("");
 
 function registerUser() {
-  console.log(name.value, email.value, password.value, flatshareName.value);
+  try {
+    axios.post("/api/v1/auth/register", {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      flatshare_name: flatshareName.value,
+    });
+    router.push({ path: "/" });
+    notify({
+      title: "Authorization",
+      text: "You have been logged in!",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
 }
 </script>
 

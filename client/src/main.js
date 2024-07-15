@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import Notifications from "@kyvg/vue3-notification";
 import { createRouter, createWebHistory } from "vue-router";
 
 import Register from "./pages/auth/Register.vue";
@@ -26,4 +27,4 @@ const router = createRouter({
 });
 
 // Create and mount the app
-createApp(App).use(router).mount("#app");
+createApp(App).use(router).use(Notifications).mount("#app");

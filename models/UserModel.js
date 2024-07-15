@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema(
       enum: ["user", "owner"],
       default: "user",
     },
+    flatshare_name: {
+      type: String,
+      required: false,
+    },
     flatshare_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Flatshare",
